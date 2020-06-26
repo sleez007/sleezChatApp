@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "635591854064",
+    "firebase_url": "https://sleezchat.firebaseio.com",
+    "project_id": "sleezchat",
+    "storage_bucket": "sleezchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635591854064:android:d88e086bddafc0922fbf35",
+        "android_client_info": {
+          "package_name": "ng.novacore.sleezchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635591854064-fs4fn3qskn8rfoe7qj95qfgpf6psucmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ng.novacore.sleezchat",
+            "certificate_hash": "5dd9287e01a7e17e0c6101ad1ce70bd0329a014f"
+          }
+        },
+        {
+          "client_id": "635591854064-ke21q83ieif758icp56ecqdl3l4u03bg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa3GE698i5bQ55Tfq-dxG8Uo0Aj53zsIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635591854064-ke21q83ieif758icp56ecqdl3l4u03bg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,3 @@
+package ng.novacore.sleezchat.repository
+
+interface AppRepositoryInterface
