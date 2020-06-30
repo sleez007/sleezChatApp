@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimaryDark">@android:color/white</color>
+    <color name="colorAccent">#06A88E</color>
+
+
+    <!--chat screen-->
+    <color name="home_selected_tab_color">#06A88E</color>
+    <color name="tab_text_color">#D4D6D9</color>
+    <color name="selected_tab_indicator">#06A88E</color>
+
+
+    <!--GENERAL COLORS-->
+    <color name="white">#FFFFFF</color>
+    <color name="dark_green">#06A88E</color>
+
+
+    <!--LINES-->
+    <color name="dash_line_in_active">#D3D3D3</color>
+    <color name="dash_line_active">#06A88E</color>
+    <color name="colorNavigation">@android:color/white</color>
+
 </resources>

@@ -1,16 +1,16 @@
-package ng.novacore.sleezchat
+package ng.novacore.sleezchat.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
-import ng.novacore.sleezchat.ui.main.MainFragment
-
+import ng.novacore.sleezchat.R
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class WizardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.activity_wizard)
+        //private val exampleViewModel: ExampleViewModel by viewModels()
     }
 }

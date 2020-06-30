@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verification_navigation"
+    app:startDestination="@id/nav_phone">
+
+    <fragment
+        android:id="@+id/nav_phone"
+        android:name="ng.novacore.sleezchat.ui.verification.phoneVerification.PhoneVerificationFragment"
+        android:label="fragment_phone_verification"
+        tools:layout="@layout/fragment_phone_verification">
+        <action
+            android:id="@+id/action_nav_phone_to_nav_otp"
+            app:destination="@id/nav_otp" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_otp"
+        android:name="ng.novacore.sleezchat.ui.verification.otpVerification.OtpFragment"
+        android:label="OtpFragment"
+        tools:layout="@layout/fragment_otp" />
+    <fragment
+        android:id="@+id/nav_profile_info"
+        android:name="ng.novacore.sleezchat.ui.verification.profileInfo.ProfileInfoFragment"
+        tools:layout="@layout/fragment_profile_info"
+        android:label="ProfileInfoFragment" >
+        <action
+            android:id="@+id/action_nav_profile_info_to_nav_img_option_btm_sheet"
+            app:destination="@id/nav_img_option_btm_sheet" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_nav_profile_info"
+        app:destination="@id/nav_profile_info" />
+    <dialog
+        android:id="@+id/nav_img_option_btm_sheet"
+        android:name="ng.novacore.sleezchat.ui.verification.profileInfo.btmSheet.ImageOptions"
+        android:label="fragment_image_options_chooser_btm_sheet"
+        tools:layout="@layout/fragment_image_options_chooser_btm_sheet" >
+        <argument
+            android:name="item_count"
+            app:argType="integer"
+            android:defaultValue="2" />
+    </dialog>
+</navigation>
