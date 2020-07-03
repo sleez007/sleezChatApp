@@ -6,6 +6,9 @@ object Constants {
     const val CHAT_CONTAINER_TO_STATUS = 2
     const val CHAT_CONTAINER_TO_CALL = 3
 
+    //PERMISSION REQUEST_CODE
+    const val CAMERA_PERMISSION_REQUEST_CODE = 360
+
     //APP THEME
     const val THEME_LIGHT = "light"
     const val THEME_DARK = "dark"

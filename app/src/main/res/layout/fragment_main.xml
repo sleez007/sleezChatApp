@@ -16,8 +16,9 @@
         android:layout_height="match_parent"
         tools:context=".ui.chat.main.MainFragment">
 
-        <androidx.viewpager2.widget.ViewPager2
+        <ng.novacore.sleezchat.views.NovaPager
             android:id="@+id/view_pager"
+            android:layout_marginTop="-105dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -39,6 +40,7 @@
                 android:layout_width="match_parent"
                 app:title="@string/app_name"
                 app:menu="@menu/main_menu"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 android:layout_height="?attr/actionBarSize">
 
@@ -89,7 +91,9 @@
                 android:clipToPadding="false"
                 app:tabIconTint="@drawable/tab_icon_color"
                 app:tabIndicatorColor="@color/selected_tab_indicator"
-                app:tabTextColor="@color/tab_text_color"/>
+                app:tabTextColor="@color/tab_text_color">
+
+            </com.google.android.material.tabs.TabLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
