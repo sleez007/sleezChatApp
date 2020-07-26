@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.DefineComponent
 import dagger.hilt.android.HiltAndroidApp
+import ng.novacore.sleezchat.helper.AppSignatureHelper
 import ng.novacore.sleezchat.managers.MyWorkManager
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class App : Application(), Configuration.Provider {
         Timber.plant(Timber.DebugTree())
         initializeTheme()
         initializeWorkers()
+        AppSignatureHelper(this)
     }
 
     private fun initializeTheme(){

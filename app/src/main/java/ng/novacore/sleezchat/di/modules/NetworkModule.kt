@@ -1,19 +1,23 @@
 package ng.novacore.sleezchat.di.modules
 
 import android.content.Context
-import com.github.nkzawa.socketio.client.IO
-import com.github.nkzawa.socketio.client.Socket
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import ng.novacore.sleezchat.application.App
+import dagger.hilt.android.scopes.ActivityScoped
+import io.socket.client.IO
+import io.socket.client.Socket
+import ng.novacore.sleezchat.BuildConfig
 import ng.novacore.sleezchat.di.annotations.MyInterceptor
+import ng.novacore.sleezchat.helper.SharedPrefHelper
 import ng.novacore.sleezchat.network.ApiInterface
-import ng.novacore.sleezchat.network.requestResponse.ConnectivityStatusInterceptor
+import ng.novacore.sleezchat.network.VerificationService
+import ng.novacore.sleezchat.network.interceptors.ConnectivityStatusInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,9 +30,17 @@ import javax.inject.Singleton
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideSocketConnection(): Socket? {
+    fun provideSocketConnection(sharedPrefHelper: SharedPrefHelper): Socket? {
         try {
-            return IO.socket("http://192.168.43.205:3000")
+            val options: IO.Options = IO.Options()
+            options.forceNew = false
+            options.timeout = (60*1000)
+            options.reconnection = true
+            options.reconnectionDelay = 3000
+            options.reconnectionDelayMax = 6000
+            options.reconnectionAttempts = 99999
+            options.query = "Authorization"+sharedPrefHelper.getMyNumber()
+            return IO.socket(BuildConfig.MAIN_URL, options)
         } catch (ex: URISyntaxException) {
             ex.printStackTrace()
             throw ex
@@ -49,14 +61,17 @@ class NetworkModule {
     @Provides
     @MyInterceptor
     fun provideConnectivityInterceptor(@ApplicationContext context: Context): Interceptor {
-        return ConnectivityStatusInterceptor(context)
+        return ConnectivityStatusInterceptor(
+            context
+        )
     }
 
     @Provides
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("http://192.168.43.205:3000")
+            .baseUrl(BuildConfig.MAIN_URL)
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(okHttpClient).build()
     }
 
@@ -64,6 +79,12 @@ class NetworkModule {
     @Provides
     fun provideApiInterface(retrofit: Retrofit): ApiInterface{
         return  retrofit.create(ApiInterface::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideVerificationService(retrofit: Retrofit): VerificationService{
+        return  retrofit.create(VerificationService::class.java)
     }
 
 

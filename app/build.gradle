@@ -25,6 +25,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "PREF_NAME", "\"nova_pref\"")
+            buildConfigField("String", "DB_NAME", "\"nova_chat.db\"")
+            buildConfigField("String", "MAIN_URL", "\"http://192.168.43.205:3000\"")
+            buildConfigField("String", "BACKEND_BASE_URL", "\"http://192.168.1.6:9001/api/v1/\"")
+        }
+        debug {
+            buildConfigField("String", "PREF_NAME", "\"chat_pref\"")
+            buildConfigField("String", "DB_NAME", "\"chat_store.db\"")
+            buildConfigField("String", "MAIN_URL", "\"http://192.168.43.205:3000\"")
+            buildConfigField("String", "BACKEND_BASE_URL", "\"http://192.168.1.6:9001/api/v1/\"")
         }
     }
 
@@ -35,9 +45,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dataBinding {
-        enabled = true
+    buildFeatures{
+        dataBinding = true
     }
+
 
 }
 
@@ -118,15 +129,20 @@ dependencies {
     //LEAK CANARY
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary_version"
 
-    //socket io
-    implementation "com.github.nkzawa:socket.io-client:$socketIO_version"
+//    //socket io
+//    implementation "com.github.nkzawa:socket.io-client:$socketIO_version"
+
+    implementation ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
 
     //search view
     implementation "com.miguelcatalan:materialsearchview:$searchView_version"
 
     //FIREBASE CLOUD MESSAGING
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
-    implementation 'com.google.firebase:firebase-messaging:20.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-messaging:20.2.3'
 
     // SMS VERIFICATION API
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
@@ -140,7 +156,12 @@ dependencies {
     //COUNTRY CODE PICKER
     implementation 'com.hbb20:ccp:2.4.0'
 
-    implementation 'com.github.Goody-h:ResidingTab:v1.0.0'
+    implementation ('com.alimuzaffar.lib:pinentryedittext:2.0.6') {
+        // Exclude is only needed if you already have
+        // androidx.appcompat as a dependency in your app.
+        exclude group: 'androidx.appcompat', module: 'appcompat'
+    }
+
 
 
     testImplementation 'junit:junit:4.12'

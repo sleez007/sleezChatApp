@@ -18,7 +18,11 @@
         android:id="@+id/nav_otp"
         android:name="ng.novacore.sleezchat.ui.verification.otpVerification.OtpFragment"
         android:label="OtpFragment"
-        tools:layout="@layout/fragment_otp" />
+        tools:layout="@layout/fragment_otp" >
+        <argument
+            android:name="telNo"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_profile_info"
         android:name="ng.novacore.sleezchat.ui.verification.profileInfo.ProfileInfoFragment"

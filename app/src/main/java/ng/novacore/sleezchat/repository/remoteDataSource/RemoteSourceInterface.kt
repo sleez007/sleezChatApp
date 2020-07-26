@@ -1,3 +1,9 @@
 package ng.novacore.sleezchat.repository.remoteDataSource
 
-interface RemoteSourceInterface
+import ng.novacore.sleezchat.model.auth.JoinModel
+import ng.novacore.sleezchat.model.network.JoinModelResponse
+import ng.novacore.sleezchat.utils.Result
+
+interface RemoteSourceInterface{
+
+}

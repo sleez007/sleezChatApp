@@ -21,4 +21,9 @@
     <color name="dash_line_active">#06A88E</color>
     <color name="colorNavigation">@android:color/white</color>
 
+    <!--SNACKBAR COLOR-->
+    <color name="error_snack">#B00020</color>
+    <color name="success_snack">#FD9727</color>
+    <color name="warning_snack">#2196f3</color>
+
 </resources>

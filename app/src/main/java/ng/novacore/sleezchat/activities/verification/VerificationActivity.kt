@@ -1,37 +1,36 @@
 package ng.novacore.sleezchat.activities.verification
 
-import android.app.Activity
-import android.app.PendingIntent
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.credentials.Credential
-import com.google.android.gms.auth.api.credentials.HintRequest
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ActivityScoped
 import ng.novacore.sleezchat.R
 import ng.novacore.sleezchat.activities.MainActivity
 import ng.novacore.sleezchat.databinding.ActivityVerificationBinding
+import ng.novacore.sleezchat.utils.SnackBarUtil
 import ng.novacore.sleezchat.utils.WindowsUtil
+import timber.log.Timber
+
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class VerificationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
+class VerificationActivity : AppCompatActivity() {
+    companion object{
+        var mThis:VerificationActivity?= null
+    }
     private lateinit var navController: NavController
     var bind: ActivityVerificationBinding? = null
 
-
    val viewModel : VerificationViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowsUtil.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.dark_green))
@@ -39,9 +38,35 @@ class VerificationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFa
        bind = DataBindingUtil.setContentView(this,R.layout.activity_verification )
         navController = findNavController(R.id.nav_verification_host_fragment)
         bind?.vm = viewModel
+        mThis= this
         bind?.lifecycleOwner = this
         destinationChangeListener()
         eventObservers()
+        liveDataEventListeners()
+    }
+
+    private fun liveDataEventListeners(){
+        viewModel.successMsg.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {msg->
+                bind?.let {
+                    SnackBarUtil.successMsg(it.container,msg,this)
+                }
+            }
+        })
+        viewModel.warningMsg.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {msg->
+                bind?.let {
+                    SnackBarUtil.warningMsg(it.container,msg,this)
+                }
+            }
+        })
+        viewModel.errorMsg.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {msg->
+                bind?.let {
+                    SnackBarUtil.errorMsg(it.container,msg,null,this)
+                }
+            }
+        })
     }
 
     fun destinationChangeListener(){
@@ -104,32 +129,39 @@ class VerificationActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFa
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 20) {
-            if (resultCode == Activity.RESULT_OK) {
-                val credential: Credential? = data!!.getParcelableExtra(Credential.EXTRA_KEY)
-                Toast.makeText(this, credential!!.id, Toast.LENGTH_LONG).show()
-                // credential.getId();  <-- will need to process phone number string
-            }
+    override fun onDestroy() {
+        mThis = null
+        super.onDestroy()
+    }
+
+
+    fun retrieveIncomingSms(){
+        val client: SmsRetrieverClient =  SmsRetriever.getClient(this)
+
+        // Starts SmsRetriever, which waits for ONE matching SMS message until timeout
+        // (5 minutes). The matching SMS message will be sent via a Broadcast Intent with
+        // action SmsRetriever#SMS_RETRIEVED_ACTION.
+        val task = client.startSmsRetriever()
+
+
+        // Listen for success/failure of the start Task. If in a background thread, this
+        // can be made blocking using Tasks.await(task, [timeout]);
+        task.addOnSuccessListener {
+            Timber.i("Successfully added a listener")
+            //registered
+            // Successfully started retriever, expect broadcast intent
+            viewModel.stopTimer()
+            viewModel.startTimer()
+        }
+
+        task.addOnFailureListener {
+            Timber.i("failed to add a listener")
+            // Failed to start retriever, inspect Exception for more details
+
         }
     }
 
-    private fun requestPhoneNumber(){
 
-        val mGoogleApiClient = GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(
-            Auth.CREDENTIALS_API).build()
-
-
-        val hintRequest : HintRequest = HintRequest.Builder().setPhoneNumberIdentifierSupported(true).build()
-        val intent: PendingIntent = Auth.CredentialsApi.getHintPickerIntent(mGoogleApiClient, hintRequest)
-        startIntentSenderForResult(intent.intentSender,
-            20, null, 0, 0, 0);
-    }
-
-    override fun onConnectionFailed(p0: ConnectionResult) {
-
-    }
 
 
 }

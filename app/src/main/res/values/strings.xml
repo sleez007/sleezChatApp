@@ -8,4 +8,14 @@
     <string name="chat">Chat</string>
     <string name="status">Status</string>
     <string name="callm">Call</string>
+    <string name="network_error">Error connecting, Please retry!</string>
+    <string name="retry">Retry</string>
+    <string name="waiting_to_automatically_detect_an_sms_sent">Waiting to automatically detect an sms sent to %s</string>
+    <string name="invalid_otp">Invalid Otp!</string>
+    <string name="invalid_phone">Invalid Phone number!</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="remove">Remove</string>
+    <string name="select_picture">Select Image</string>
+    <string name="time_stamp_pattern">yyyyMMdd_HHmmss</string>
 </resources>

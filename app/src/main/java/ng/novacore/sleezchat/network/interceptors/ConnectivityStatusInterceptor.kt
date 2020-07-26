@@ -1,4 +1,4 @@
-package ng.novacore.sleezchat.network.requestResponse
+package ng.novacore.sleezchat.network.interceptors
 
 import android.content.Context
 import android.net.ConnectivityManager
