@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import ng.novacore.sleezchat.utils.Constants.HAS_PROFILE_LOOKUP
 import ng.novacore.sleezchat.utils.Constants.LOGGED_IN_LOOKUP
 import ng.novacore.sleezchat.utils.Constants.MOBILE_NUMBER_LOOKUP
+import ng.novacore.sleezchat.utils.Constants.SEEN_WIZARD_LOOKUP
 import ng.novacore.sleezchat.utils.Constants.TOKEN_LOOKUP
 import ng.novacore.sleezchat.utils.Constants.USER_ID_LOOKUP
 import javax.inject.Inject
@@ -33,16 +34,24 @@ class SharedPrefHelper @Inject constructor(@ApplicationContext context: Context,
     fun saveUserID(userID: String?) = sharedPreferences.edit().putString(USER_ID_LOOKUP, userID).apply()
     fun getUserID():String? = sharedPreferences.getString(USER_ID_LOOKUP,null)
 
+    //NAV DECIDER LOGIC
+
+    /**
+     * @param seen Boolean indicator to know if the person has passed wizard screen
+     */
+    fun setWizards(seen: Boolean) = sharedPreferences.edit().putBoolean(SEEN_WIZARD_LOOKUP, seen)
+    fun seenWizards(): Boolean = sharedPreferences.getBoolean(SEEN_WIZARD_LOOKUP,false)
+
     /**
      * @param isLoggedIn Boolean indicator to know if client is logged in
      */
-    fun setIsLoggedIn(isLoggedIn: Boolean ) = sharedPreferences.edit().putBoolean(LOGGED_IN_LOOKUP, false).apply()
+    fun setIsLoggedIn(isLoggedIn: Boolean ) = sharedPreferences.edit().putBoolean(LOGGED_IN_LOOKUP, isLoggedIn).apply()
     fun isLoggedIn(): Boolean = sharedPreferences.getBoolean(LOGGED_IN_LOOKUP, false)
 
     /**
      * @param hasProfile Boolean parameter indicates the user has created a profile
      */
-    fun toProfile(hasProfile: Boolean ) = sharedPreferences.edit().putBoolean(HAS_PROFILE_LOOKUP, false).apply()
+    fun toProfile(hasProfile: Boolean ) = sharedPreferences.edit().putBoolean(HAS_PROFILE_LOOKUP, hasProfile).apply()
     fun hasProfile(): Boolean = sharedPreferences.getBoolean(HAS_PROFILE_LOOKUP, false)
 
 

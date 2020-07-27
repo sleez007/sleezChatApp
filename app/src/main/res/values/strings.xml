@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">SleezChat</string>
     <string name="authenticate_phone_number">Authenticate Phone number</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="chat">Chat</string>
     <string name="status">Status</string>
@@ -18,4 +15,12 @@
     <string name="remove">Remove</string>
     <string name="select_picture">Select Image</string>
     <string name="time_stamp_pattern">yyyyMMdd_HHmmss</string>
+
+    <string name="connect_with">Connect</string>
+    <string name="find_friends">Stay in touch</string>
+    <string name="get_started">Get Started</string>
+    <string name="get_start_desc">Catchup with old buddies on this platform, Create an account today its totally free. </string>
+    <string name="find_friends_desc">Stay up-to-date with latest happenings and also keep in touch with friends.</string>
+    <string name="connect_with_desc">Exchange messages, media files , images and other important documents with loved ones.</string>
+    <string name="lorem">Lorem ipsum dolor amo ti deli muna pin ben chani ti feda lemu ka bu teh lorem pa mu ka de fan goa bugu ta rum na logo nusg gshs sf hsjssbgs gsgsgs sgsgsvs</string>
 </resources>

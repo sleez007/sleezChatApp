@@ -32,4 +32,5 @@ object Constants {
     const val USER_ID_LOOKUP : String = "KEY_USER_ID"
     const val LOGGED_IN_LOOKUP :String ="KEY_LOGGED_IN"
     const val HAS_PROFILE_LOOKUP: String ="KEY_HAS_PROFILE"
+    const val SEEN_WIZARD_LOOKUP : String ="KEY_SEEN_WIZARD"
 }
