@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SleezChat</string>
+    <string name="app_name">Nova</string>
     <string name="authenticate_phone_number">Authenticate Phone number</string>
     <string name="search">Search</string>
     <string name="chat">Chat</string>
