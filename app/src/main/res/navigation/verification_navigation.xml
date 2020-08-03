@@ -34,7 +34,9 @@
     </fragment>
     <action
         android:id="@+id/action_global_nav_profile_info"
-        app:destination="@id/nav_profile_info" />
+        app:destination="@id/nav_profile_info"
+        app:popUpTo="@id/nav_phone"
+        app:popUpToInclusive="true" />
     <dialog
         android:id="@+id/nav_img_option_btm_sheet"
         android:name="ng.novacore.sleezchat.ui.verification.profileInfo.btmSheet.ImageOptions"

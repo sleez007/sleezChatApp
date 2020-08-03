@@ -40,7 +40,7 @@ class IntroViewModel @ViewModelInject constructor(
                 delay(1000)
                 if(sharedPrefHelper.seenWizards()){
                     if(sharedPrefHelper.isLoggedIn()){
-                        toScreen.postValue(Event(NavEnum.TO_WIZARD))
+                        toScreen.postValue(Event(NavEnum.TO_MAIN))
                     }else{
                         if(sharedPrefHelper.hasProfile()){
                             toScreen.postValue(Event(NavEnum.TO_PROFILE))
@@ -56,6 +56,24 @@ class IntroViewModel @ViewModelInject constructor(
     }
 
     //WIZARD LOGIC
+    var buttonWriteUp = MutableLiveData<String>(context.getString(R.string.proceed));
+
+    fun setWriteUp(index: Int){
+
+        if(index == 2 ){
+            buttonWriteUp.value = context.getString(R.string.got_it)
+        }else{
+            buttonWriteUp.value = context.getString(R.string.proceed)
+        }
+    }
+
+    /**
+     * THIS METHOD IS TRIGGERED TO PROCEED FURTHER INTO THE APP
+     */
+    fun exitWizards(){
+        sharedPrefHelper.setWizards(true)
+        toScreen.value = Event(NavEnum.TO_PHONE_NUM)
+    }
 
 
 }

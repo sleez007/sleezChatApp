@@ -13,20 +13,27 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ng.novacore.sleezchat.R
+import ng.novacore.sleezchat.helper.SharedPrefHelper
+import ng.novacore.sleezchat.helper.camera.GalleryPicker
+import ng.novacore.sleezchat.helper.camera.ImageManager
+import ng.novacore.sleezchat.internals.enums.NavEnum
+import ng.novacore.sleezchat.internals.enums.OpenMedia
 import ng.novacore.sleezchat.internals.enums.VerificationEnum
 import ng.novacore.sleezchat.internals.generics.GenericCb
 import ng.novacore.sleezchat.model.auth.JoinModel
 import ng.novacore.sleezchat.model.network.JoinModelResponse
+import ng.novacore.sleezchat.model.network.UploadResponse
 import ng.novacore.sleezchat.repository.VerificationRepository
 import ng.novacore.sleezchat.utils.Event
 import ng.novacore.sleezchat.utils.PhoneNumberUtility
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import timber.log.Timber
-import java.util.*
-import ng.novacore.sleezchat.R
-import ng.novacore.sleezchat.helper.SharedPrefHelper
-import ng.novacore.sleezchat.helper.camera.GalleryPicker
-import ng.novacore.sleezchat.internals.enums.OpenMedia
+import java.io.File
 import java.io.IOException
+import java.util.*
 
 class VerificationViewModel @ViewModelInject constructor(
     private val repo: VerificationRepository,
@@ -44,6 +51,22 @@ class VerificationViewModel @ViewModelInject constructor(
     val successMsg = MutableLiveData<Event<String>>()
     val errorMsg = MutableLiveData<Event<String>>()
     val warningMsg = MutableLiveData<Event<String>>()
+    val toScreen = MutableLiveData<Event<NavEnum>>()
+
+    init {
+        toPage()
+    }
+
+
+    private fun toPage() {
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                if (sharedPrefHelper.hasProfile()) {
+                    toScreen.postValue(Event(NavEnum.TO_PROFILE))
+                }
+            }
+        }
+    }
 
 
     fun clickHandler() {
@@ -54,7 +77,12 @@ class VerificationViewModel @ViewModelInject constructor(
             1 -> {
                 _currentFrag.value = Event(2)
             }
+            2->{
+                _currentFrag.value = Event(3)
+            }
+
         }
+        Timber.i("The current page is $currentPage")
 //        if(currentPage >= 2){
 //            navigateToHome.value = Event(true)
 //        }else{
@@ -114,11 +142,14 @@ class VerificationViewModel @ViewModelInject constructor(
      * @param countryName is the name of the country
      */
     private fun requestOtp(telNo: String, countryName: String) {
-        val joinModel = JoinModel(telNo = telNo, country = countryName)
-        viewModelScope.launch {
-            loading.postValue(true)
-            repo.join(joinModel, telVerificationCb)
+        if(loading.value == false){
+            val joinModel = JoinModel(telNo = telNo, country = countryName)
+            viewModelScope.launch {
+                loading.postValue(true)
+                repo.join(joinModel, telVerificationCb)
+            }
         }
+
 
     }
 
@@ -131,6 +162,7 @@ class VerificationViewModel @ViewModelInject constructor(
     var otpVerificationCb: GenericCb<JoinModelResponse> = object : GenericCb<JoinModelResponse> {
         override fun success(resp: JoinModelResponse) {
             Timber.i(resp.toString())
+            stopTimer()
             sharedPrefHelper.saveToken(resp.token)
             sharedPrefHelper.saveUserID(resp.id)
             sharedPrefHelper.toProfile(true)
@@ -192,10 +224,21 @@ class VerificationViewModel @ViewModelInject constructor(
     //PROFILE RELATED LOGIC
     val openMedia = MutableLiveData<Event<OpenMedia>>()
     val bitMap = MutableLiveData<Event<Bitmap>>()
+    var byteArray: ByteArray? = null
+    val displayName = MutableLiveData<String>()
+    var path : String = ""
 
-    fun decodeImageOnBgThread(path:String, targetW: Int, targetH: Int){
+    /**
+     * @param path : This is the file path to be decoded into a bitmap
+     * @param targetH : The height of the view where this bitMap will be fitted into. This is to enable us resize the bitmap into a smaller fit
+     * @param targetW : This is the width of the view where the bitmap will be fitted into. This is to enable us resize the bitmap into a smaller fit
+     * @return Void
+     * @desc : This method handles manipulation of image taking through mediastore camera. This method also  compresses the final version
+     * of the image to be uploaded before upload
+     */
+    fun decodeImageOnBgThread(path: String, targetW: Int, targetH: Int) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 val bmOptions = BitmapFactory.Options().apply {
                     // Get the dimensions of the bitmap
                     inJustDecodeBounds = true
@@ -210,26 +253,87 @@ class VerificationViewModel @ViewModelInject constructor(
                     inJustDecodeBounds = false
                     inSampleSize = scaleFactor
                 }
-                val bitM = BitmapFactory.decodeFile(path,bmOptions)
+                val bitM = BitmapFactory.decodeFile(path, bmOptions)
                 bitMap.postValue(Event(bitM))
+                byteArray= ImageManager.compressImage(path);
+                this@VerificationViewModel.path = path
+                Timber.i("----------------------------------")
+                Timber.i(byteArray?.toString()?:"")
+                Timber.i("----------------------------------")
             }
         }
     }
 
-    fun decodeGalleryUriToBitmap(photoUri: Uri, activity: Activity){
+    /**
+     * @param  Uri : This is the Image provider URI returned by the intent to MediaStore Gallery
+     * @param activity :activity required by content provider
+     * @return Void
+     * @desc : This method handles manipulation of image gotten through Media store gallery Intent. This method also compresses the final version
+     * of the image to be uploaded before upload
+     */
+    fun decodeGalleryUriToBitmap(photoUri: Uri, activity: Activity) {
         viewModelScope.launch {
-            val bm = try{
-                GalleryPicker.loadImageFromUri(photoUri, activity)
-            }catch (ex: IOException){
-               throw ex
+            val bm = try {
+               var bitM = GalleryPicker.loadImageFromUri(photoUri, activity)
+                GalleryPicker.currentPhotoPath?.let {
+                    byteArray = ImageManager.compressImage(it);
+                    path = it
+                }
+                bitM
+
+            } catch (ex: IOException) {
+                throw ex
                 null
             }
             bm?.let {
                 bitMap.postValue(Event(it))
             }
-
         }
     }
+
+
+    val profileCb: GenericCb<UploadResponse> = object : GenericCb<UploadResponse>{
+        override fun success(resp: UploadResponse) {
+            Timber.i(resp.toString())
+            successMsg.postValue(Event(resp.msg))
+            navigate.postValue(Event(VerificationEnum.TO_PROFILE_FRAG))
+            loading.postValue(false)
+        }
+
+        override fun error(msg: String) {
+            loading.postValue(false)
+            errorMsg.postValue(Event(msg))
+            Timber.i(msg)
+        }
+
+    }
+
+    /**
+     * Upload the information to the server
+     */
+     fun updateProfile(){
+        if(loading.value== false){
+            if(displayName.value==null || displayName.value!!.trim().length < 4) return warningMsg.postValue(Event(context.getString(R.string.display_name_msg)))
+            if(byteArray == null) return warningMsg.postValue(Event(context.getString(R.string.provide_profile_photo)))
+            // create RequestBody instance from file
+            byteArray?.let {
+                val requestFile: RequestBody? = RequestBody.create(MediaType.parse("image/*"), it)
+                requestFile?.let {
+                    val file : File = File(path);
+                    val form = MultipartBody.Part.createFormData("file", file.name,it)
+                    viewModelScope.launch {
+                        loading.postValue(true)
+                        repo.createProfileAsync(form,displayName.value!!.trim(), sharedPrefHelper.getUserID() ?: "",profileCb)
+                    }
+
+                }
+            }
+        }
+
+    }
+
+
+
 
 
 }

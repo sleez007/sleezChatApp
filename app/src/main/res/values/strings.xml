@@ -23,4 +23,9 @@
     <string name="find_friends_desc">Stay up-to-date with latest happenings and also keep in touch with friends.</string>
     <string name="connect_with_desc">Exchange messages, media files , images and other important documents with loved ones.</string>
     <string name="lorem">Lorem ipsum dolor amo ti deli muna pin ben chani ti feda lemu ka bu teh lorem pa mu ka de fan goa bugu ta rum na logo nusg gshs sf hsjssbgs gsgsgs sgsgsvs</string>
+    <string name="proceed">Proceed</string>
+    <string name="got_it">Got it</string>
+    <string name="preference_key_theme_option">theme_options</string>
+    <string name="display_name_msg">Invalid display name</string>
+    <string name="provide_profile_photo">Select profile picture</string>
 </resources>

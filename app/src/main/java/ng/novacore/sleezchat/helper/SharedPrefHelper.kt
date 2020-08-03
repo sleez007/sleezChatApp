@@ -39,7 +39,7 @@ class SharedPrefHelper @Inject constructor(@ApplicationContext context: Context,
     /**
      * @param seen Boolean indicator to know if the person has passed wizard screen
      */
-    fun setWizards(seen: Boolean) = sharedPreferences.edit().putBoolean(SEEN_WIZARD_LOOKUP, seen)
+    fun setWizards(seen: Boolean) = sharedPreferences.edit().putBoolean(SEEN_WIZARD_LOOKUP, seen).apply()
     fun seenWizards(): Boolean = sharedPreferences.getBoolean(SEEN_WIZARD_LOOKUP,false)
 
     /**

@@ -33,7 +33,7 @@ class VerificationActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        WindowsUtil.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.dark_green))
+        WindowsUtil.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.brand_primary))
         super.onCreate(savedInstanceState)
        bind = DataBindingUtil.setContentView(this,R.layout.activity_verification )
         navController = findNavController(R.id.nav_verification_host_fragment)
@@ -157,7 +157,6 @@ class VerificationActivity : AppCompatActivity() {
         task.addOnFailureListener {
             Timber.i("failed to add a listener")
             // Failed to start retriever, inspect Exception for more details
-
         }
     }
 

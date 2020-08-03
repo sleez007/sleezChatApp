@@ -15,7 +15,7 @@ class SyncContactsWithServerWorker @WorkerInject constructor(@Assisted appContex
     }
 
     private fun syncContacts(){
-      val contactsList=   ContactsUtil.retrieveContacts(applicationContext)
+      val contactsList =   ContactsUtil.retrieveContacts(applicationContext)
         Timber.i(contactsList.toString())
     }
 

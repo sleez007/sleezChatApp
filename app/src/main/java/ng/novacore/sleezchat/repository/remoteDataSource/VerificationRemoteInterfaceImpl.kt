@@ -5,8 +5,10 @@ import kotlinx.coroutines.Deferred
 import ng.novacore.sleezchat.internals.exceptions.NoConnectivityException
 import ng.novacore.sleezchat.model.auth.JoinModel
 import ng.novacore.sleezchat.model.network.JoinModelResponse
+import ng.novacore.sleezchat.model.network.UploadResponse
 import ng.novacore.sleezchat.network.VerificationService
 import ng.novacore.sleezchat.utils.Result
+import okhttp3.MultipartBody
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
@@ -26,6 +28,23 @@ class VerificationRemoteInterfaceImpl @Inject constructor(private val verificati
     override suspend fun resendOtpAsync(body: JoinModel): Result<JoinModelResponse> {
         val job =  verificationService.resendOtpAsync(body)
         return mapSimilarResponse(job)
+    }
+
+    override suspend fun createProfileAsync(
+        displayPic: MultipartBody.Part,
+        displayName: String,
+        uId: String
+    ): Result<UploadResponse> {
+       val job = verificationService.createProfileAsync(displayPic, displayName, uId)
+        return try{
+            val response = job.await()
+            when(response.isSuccessful){
+                true->Result.Success(response)
+                false->Result.Error(Exception(response.msg))
+            }
+        }catch (ex:Exception){
+            manageErrors(ex)
+        }
     }
 
     private suspend fun mapSimilarResponse(job: Deferred<JoinModelResponse>): Result<JoinModelResponse>{

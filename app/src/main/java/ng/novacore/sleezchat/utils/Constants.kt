@@ -1,5 +1,7 @@
 package ng.novacore.sleezchat.utils
 
+import ng.novacore.sleezchat.BuildConfig
+
 object Constants {
     const val CHAT_CONTAINER_TO_CAMERA = 0
     const val CHAT_CONTAINER_TO_CHAT = 1
@@ -22,7 +24,7 @@ object Constants {
     const val THEME_DEFAULT = "default"
 
     //sharedPref
-    const val APP = "novachat"
+    const val APP = BuildConfig.PREF_NAME
 
     const val DATABASE_PAGE_SIZE = 50
 

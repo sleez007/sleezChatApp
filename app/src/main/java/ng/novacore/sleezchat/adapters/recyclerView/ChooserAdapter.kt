@@ -14,9 +14,9 @@ import ng.novacore.sleezchat.utils.Event
 
 class ChooserAdapter(private val mItemCount: Int, val  viewModel: VerificationViewModel,val sheet: BottomSheetDialogFragment) : RecyclerView.Adapter<ChooserHolder>() {
     val optionsList = listOf<ImageChooserModel>(
-        ImageChooserModel(R.drawable.ic_baseline_image_24, R.string.gallery),
-        ImageChooserModel(title = R.string.camera),
-        ImageChooserModel(R.drawable.ic_baseline_image_24, R.string.remove)
+        ImageChooserModel(R.drawable.gallery, R.string.gallery),
+        ImageChooserModel(R.drawable.camera,R.string.camera),
+        ImageChooserModel(R.drawable.cancel, R.string.remove)
     )
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooserHolder = ChooserHolder.from(parent, sheet)
     override fun onBindViewHolder(holder: ChooserHolder, position: Int)= holder.bind(position, optionsList[position],viewModel)

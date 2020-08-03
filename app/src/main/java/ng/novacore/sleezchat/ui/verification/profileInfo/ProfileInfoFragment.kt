@@ -1,13 +1,11 @@
 package ng.novacore.sleezchat.ui.verification.profileInfo
 
 import android.Manifest
-import android.R.attr.bitmap
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import ng.novacore.sleezchat.R
 import ng.novacore.sleezchat.activities.verification.VerificationActivity
@@ -24,6 +21,7 @@ import ng.novacore.sleezchat.databinding.FragmentProfileInfoBinding
 import ng.novacore.sleezchat.helper.camera.CameraPicker
 import ng.novacore.sleezchat.helper.camera.GalleryPicker
 import ng.novacore.sleezchat.internals.enums.OpenMedia
+import ng.novacore.sleezchat.managers.MyWorkManager
 import ng.novacore.sleezchat.utils.Constants
 import javax.inject.Inject
 
@@ -55,11 +53,13 @@ class ProfileInfoFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = (activity as VerificationActivity).viewModel
         binding?.apply {
+            vm = viewModel
             lifecycleOwner = viewLifecycleOwner
             fab.setOnClickListener {
                 requestPermissions()
             }
         }
+        initializeBackgroundJobs()
         viewModel.openMedia.observe(viewLifecycleOwner, Observer {
             it?.getContentIfNotHandled()?.let {
                 when(it){
@@ -81,6 +81,15 @@ class ProfileInfoFragment : Fragment() {
                 binding?.imageView?.setImageBitmap(it)
             }
         })
+        viewModel.currentFrag.observe(viewLifecycleOwner, Observer {
+
+            it?.getContentIfNotHandled()?.let {
+                if(it == 3){
+                    viewModel.updateProfile()
+                }
+            }
+        })
+
     }
 
     override fun onDestroyView() {
@@ -168,5 +177,12 @@ class ProfileInfoFragment : Fragment() {
             }
         }
     }
+
+
+    private fun initializeBackgroundJobs(){
+        MyWorkManager.initializeAppWorkers(requireContext().applicationContext)
+        MyWorkManager.synchronizeContactsWithServerAsap(requireContext().applicationContext)
+    }
+
 
 }

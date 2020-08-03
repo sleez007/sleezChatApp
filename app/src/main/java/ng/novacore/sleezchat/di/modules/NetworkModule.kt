@@ -9,19 +9,20 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
-import io.socket.client.IO
-import io.socket.client.Socket
 import ng.novacore.sleezchat.BuildConfig
 import ng.novacore.sleezchat.di.annotations.MyInterceptor
 import ng.novacore.sleezchat.helper.SharedPrefHelper
-import ng.novacore.sleezchat.network.ApiInterface
+import ng.novacore.sleezchat.network.ApiService
 import ng.novacore.sleezchat.network.VerificationService
 import ng.novacore.sleezchat.network.interceptors.ConnectivityStatusInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+import java.net.URI
 import java.net.URISyntaxException
 import javax.inject.Singleton
 
@@ -30,18 +31,20 @@ import javax.inject.Singleton
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideSocketConnection(sharedPrefHelper: SharedPrefHelper): Socket? {
+    fun provideSocketConnection(sharedPrefHelper: SharedPrefHelper): Socket {
         try {
             val options: IO.Options = IO.Options()
             options.forceNew = false
-            options.timeout = (60*1000)
-            options.reconnection = true
-            options.reconnectionDelay = 3000
-            options.reconnectionDelayMax = 6000
+//            options.timeout = (60*1000)
+            //options.reconnection = true
+//            options.reconnectionDelay = 3000
+//            options.reconnectionDelayMax = 6000
             options.reconnectionAttempts = 99999
-            options.query = "Authorization"+sharedPrefHelper.getMyNumber()
-            return IO.socket(BuildConfig.MAIN_URL, options)
+            options.query = "Authorization="+sharedPrefHelper.getToken()
+            Timber.i("I have been initialized socket")
+            return IO.socket(URI(BuildConfig.MAIN_URL), options)
         } catch (ex: URISyntaxException) {
+            Timber.i("an error happened ${ex.reason}")
             ex.printStackTrace()
             throw ex
         }
@@ -77,15 +80,14 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface{
-        return  retrofit.create(ApiInterface::class.java)
+    fun provideApiInterface(retrofit: Retrofit): ApiService{
+        return  retrofit.create(ApiService::class.java)
     }
 
-    @Singleton
+
     @Provides
     fun provideVerificationService(retrofit: Retrofit): VerificationService{
         return  retrofit.create(VerificationService::class.java)
     }
-
 
 }

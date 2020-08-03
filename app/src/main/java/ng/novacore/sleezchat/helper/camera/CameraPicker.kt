@@ -15,7 +15,7 @@ import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 
-class CameraPicker @Inject constructor(): CameraManager() {
+class CameraPicker @Inject constructor(): ImageManager() {
     var currentPhotoPath : String? = null
 
     fun sendToExternalApp(fragment: Fragment ){
@@ -59,17 +59,6 @@ class CameraPicker @Inject constructor(): CameraManager() {
 
         //return File(mediaStorageDir.path + File.separator + fileName)
 
-//        val timeStamp: String = SimpleDateFormat(fragment.getString(R.string.time_stamp_pattern)).format(Date())
-//        val storageDir: File? = fragment.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        return File.createTempFile(
-//            "JPEG_${timeStamp}_", /* prefix */
-//            ".jpg", /* suffix */
-//            storageDir /* directory */
-//        ).apply {
-//            // Save a file: path for use  with ACTION_VIEW intents
-//            Timber.i(absolutePath)
-//            currentPhotoPath = absolutePath
-//        }
     }
 
 

@@ -4,8 +4,9 @@ import kotlinx.coroutines.Deferred
 import ng.novacore.sleezchat.application.EndPoints
 import ng.novacore.sleezchat.model.auth.JoinModel
 import ng.novacore.sleezchat.model.network.JoinModelResponse
-import retrofit2.http.Body
-import retrofit2.http.POST
+import ng.novacore.sleezchat.model.network.UploadResponse
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface VerificationService {
     @POST(EndPoints.PHONE_VERIFICATION)
@@ -16,4 +17,8 @@ interface VerificationService {
 
     @POST(EndPoints.RESEND_VERIFICATION)
     fun resendOtpAsync(@Body joinModel : JoinModel): Deferred<JoinModelResponse>
+
+    @Multipart
+    @POST(EndPoints.CREATE_PROFILE)
+    fun createProfileAsync(@Part displayPic : MultipartBody.Part, @Path("displayName") displayName: String, @Path("uId") uId: String ): Deferred<UploadResponse>
 }

@@ -6,4 +6,5 @@ object EndPoints {
     const val PHONE_VERIFICATION = "auth/phone_verification"
     const val OTP_VERIFICATION = "/auth/otp_verification"
     const val RESEND_VERIFICATION = "/auth/resend_otp"
+    const val CREATE_PROFILE = "/auth/profile/{uId}/{displayName}"
 }

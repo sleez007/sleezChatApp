@@ -4,7 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="vm"
+            type="ng.novacore.sleezchat.activities.verification.VerificationViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,10 +21,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="82dp"
             android:layout_marginEnd="90dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="You are almost done. Enter profile details(Optional)"
-            android:textColor="#444"
-            android:textSize="18sp"
+            android:text="You are almost done. Enter profile details"
+            android:textAppearance="@style/Title_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,6 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                style="?android:attr/progressBarStyle"
+                tools:visibility="gone"
+                android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
                 />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -77,10 +81,25 @@
             android:layout_marginEnd="16dp"
             android:ems="10"
             android:hint="Enter Your Name"
+            android:text="@={vm.displayName}"
+            android:fontFamily="@font/poppins_regular"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:visibility="@{vm.loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText5"
+            tools:visibility="gone" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

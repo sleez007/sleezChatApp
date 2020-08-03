@@ -3,15 +3,33 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorSecondary">@color/secondary_green</item>
+        <item name="colorError">@color/error_color</item>
+        <item name="colorSurface">@color/surface_color</item>
+
+        <item name="colorOnError">@color/on_error_color</item>
+        <item name="colorOnBackground">@color/on_background_color</item>
+        <item name="colorOnPrimary">@color/on_primary_color</item>
+        <item name="colorOnSecondary">@color/on_secondary_color</item>
+        <item name="colorOnSurface">@color/on_surface_color</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
+    </style>
+
+
+    <!--- TEXT STYLES-->
+    <style name="Title_text" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="body_1_text" parent="@style/TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/poppins_regular</item>
     </style>
 
 </resources>

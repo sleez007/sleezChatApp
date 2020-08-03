@@ -20,10 +20,13 @@ import com.google.android.gms.common.api.GoogleApiClient
 import dagger.hilt.android.AndroidEntryPoint
 
 import ng.novacore.sleezchat.R
+import ng.novacore.sleezchat.activities.MainActivity
 import ng.novacore.sleezchat.activities.verification.VerificationActivity
 import ng.novacore.sleezchat.activities.verification.VerificationViewModel
 import ng.novacore.sleezchat.databinding.FragmentPhoneVerificationBinding
+import ng.novacore.sleezchat.internals.enums.NavEnum
 import ng.novacore.sleezchat.internals.enums.VerificationEnum
+import ng.novacore.sleezchat.ui.intro.SplashFragmentDirections
 import ng.novacore.sleezchat.utils.Constants.FCM_PHONE_AUTH_RESULT
 import timber.log.Timber
 
@@ -84,6 +87,19 @@ class PhoneVerificationFragment : Fragment(),GoogleApiClient.OnConnectionFailedL
         viewModel.setUpReceiver.observe(viewLifecycleOwner, Observer {
             it?.getContentIfNotHandled()?.let{
                 if(it) (activity as VerificationActivity).retrieveIncomingSms()
+            }
+        })
+        viewModel.toScreen.observe(viewLifecycleOwner, Observer {
+            it?.getContentIfNotHandled()?.let {
+                when(it){
+                    NavEnum.TO_PROFILE->{
+                        val action = PhoneVerificationFragmentDirections.actionGlobalNavProfileInfo()
+                        findNavController().navigate(action)
+                    }
+                    else->{
+                        //DO Nothing here
+                    }
+                }
             }
         })
 

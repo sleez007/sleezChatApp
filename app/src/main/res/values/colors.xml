@@ -2,7 +2,28 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">@android:color/white</color>
-    <color name="colorAccent">#06A88E</color>
+
+
+    <!--BRAND COLORS-->
+    <color name="brand_primary">@color/primary_green</color>
+
+
+
+    <!--THEME COLORS-->
+    <color name="primary_green">#06A88E</color>
+    <color name="primary_dark">#FFFFFF</color>
+    <color name="secondary_green">#06A88E</color>
+    <color name="error_color">#B00020</color>
+    <color name="background_color">#FFFFFF</color>
+    <color name="surface_color">#FFFFFF</color>
+    <color name="on_surface_color">#242424</color>
+    <color name="on_primary_color">#FFFFFF</color>
+    <color name="on_secondary_color">#FFFFFF</color>
+    <color name="on_background_color">#3B3B3B</color>
+    <color name="on_error_color">#FFFFFF</color>
+    <color name="dots_color">#e14753</color>
+    <color name="tool_bar">#FFFFFF</color>
+
 
 
     <!--chat screen-->
@@ -18,8 +39,8 @@
 
     <!--LINES-->
     <color name="dash_line_in_active">#D3D3D3</color>
-    <color name="dash_line_active">#06A88E</color>
-    <color name="colorNavigation">@android:color/white</color>
+    <color name="dash_line_active">@color/brand_primary</color>
+    <color name="colorNavigation">@color/background_color</color>
 
     <!--SNACKBAR COLOR-->
     <color name="error_snack">#B00020</color>

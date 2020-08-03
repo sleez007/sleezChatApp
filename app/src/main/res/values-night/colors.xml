@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--BRAND COLORS-->
+    <color name="brand_primary">@color/primary_green</color>
+
+    <!--THEME COLORS-->
+    <color name="primary_green">#7cccbb</color>
+    <color name="primary_dark">#FFFFFF</color>
+    <color name="secondary_green">#7cccbb</color>
+    <color name="error_color">#CF6679</color>
+    <color name="background_color">#121212</color>
+    <color name="surface_color">#1E1E1E</color>
+    <color name="on_surface_color">#FFFFFF</color>
+    <color name="on_primary_color">#000000</color>
+    <color name="on_secondary_color">#000000</color>
+    <color name="on_background_color">#FFFFFF</color>
+    <color name="on_error_color">#000000</color>
+    <color name="dots_color">#e5949a</color>
+    <color name="tool_bar">#202020</color>
+
+    <!--LINES-->
+    <color name="dash_line_active">@color/brand_primary</color>
+</resources>

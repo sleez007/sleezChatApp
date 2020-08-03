@@ -1,9 +1,8 @@
 package ng.novacore.sleezchat.repository.remoteDataSource
 
-import ng.novacore.sleezchat.network.ApiInterface
-import ng.novacore.sleezchat.network.VerificationService
+import ng.novacore.sleezchat.network.ApiService
 import javax.inject.Inject
 
-class RemoteSourceImp @Inject constructor(private val apiService: ApiInterface):  RemoteSourceInterface{
+class RemoteSourceImp @Inject constructor(private val apiService: ApiService):  RemoteSourceInterface{
 
 }

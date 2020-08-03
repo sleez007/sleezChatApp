@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="ng.novacore.sleezchat.activities.intro.IntroViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:progressMode="true"
-            app:selectedDotColor="@color/colorPrimary" />
+            app:selectedDotColor="@color/dots_color" />
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/materialRippleLayout"
@@ -46,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{()->vm.exitWizards()}"
             android:layout_marginBottom="52dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,22 +57,25 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="@{vm.buttonWriteUp}"
+                tools:text="@string/app_name"
                 app:elevation="0dp" />
         </com.balysv.materialripple.MaterialRippleLayout>
-
-        <TextView
+        <Button
             android:id="@+id/skip_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="62dp"
             android:layout_marginEnd="16dp"
-            android:drawableRight="@drawable/ic_close_black_24dp"
-            android:fontFamily="@font/poppins_regular"
             android:text="Skip"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            app:iconGravity="end"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:icon="@drawable/ic_close_black_24dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:onClick="@{()->vm.exitWizards()}"
+            />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
