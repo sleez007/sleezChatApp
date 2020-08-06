@@ -33,8 +33,8 @@ android {
         debug {
             buildConfigField("String", "PREF_NAME", "\"chat_pref\"")
             buildConfigField("String", "DB_NAME", "\"chat_store.db\"")
-            buildConfigField("String", "MAIN_URL", "\"http://192.168.43.205:3000\"")
-            buildConfigField("String", "BACKEND_BASE_URL", "\"http://192.168.1.6:9001/api/v1/\"")
+            buildConfigField("String", "MAIN_URL", "\"http://192.168.200.4:3000\"")
+            buildConfigField("String", "BACKEND_BASE_URL", "\"http://192.168.43.205:3000/api/v1/\"")
         }
     }
 
@@ -116,6 +116,9 @@ dependencies {
 
     //Circle ImageView
     implementation "de.hdodenhof:circleimageview:$circle_image_version"
+
+    //circular status view whatsapp style
+    implementation 'com.devlomi:circularstatusview:1.0.1'
 
     //Paging Library
     implementation "androidx.paging:paging-runtime:$paging_library"

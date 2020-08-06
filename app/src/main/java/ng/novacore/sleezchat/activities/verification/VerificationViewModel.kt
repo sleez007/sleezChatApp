@@ -294,9 +294,9 @@ class VerificationViewModel @ViewModelInject constructor(
 
     val profileCb: GenericCb<UploadResponse> = object : GenericCb<UploadResponse>{
         override fun success(resp: UploadResponse) {
-            Timber.i(resp.toString())
             successMsg.postValue(Event(resp.msg))
-            navigate.postValue(Event(VerificationEnum.TO_PROFILE_FRAG))
+            sharedPrefHelper.setIsLoggedIn(true)
+            navigateToHome.postValue(Event(true))
             loading.postValue(false)
         }
 

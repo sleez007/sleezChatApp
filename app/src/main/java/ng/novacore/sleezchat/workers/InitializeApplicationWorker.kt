@@ -36,7 +36,7 @@ class InitializeApplicationWorker @WorkerInject constructor(val sharedPrefHelper
             val jsonObj : JsonObject = JsonObject()
             jsonObj.addProperty("userId", sharedPrefHelper.getUserID())
             Timber.i(jsonObj.toString())
-            socketManager.socket.emit(SocketConstants.SOCKET_NEW_USER,jsonObj)
+            socketManager.socket?.emit(SocketConstants.SOCKET_NEW_USER,jsonObj)
             true
         }catch (ex: Exception){
             ex.printStackTrace()

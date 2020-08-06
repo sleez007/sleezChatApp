@@ -29,19 +29,17 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:elevation="4dp"
-            android:background="?attr/colorPrimaryDark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:background="@color/toolbar_color"
+            android:theme="@style/ThemeOverlay.MaterialComponents">
 
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents"
-                android:background="?attr/colorPrimaryDark"
                 android:layout_width="match_parent"
                 app:title="@string/app_name"
                 app:menu="@menu/main_menu"
                 app:layout_scrollFlags="scroll|enterAlways"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Light"
                 android:layout_height="?attr/actionBarSize">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,9 +69,10 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="Hi, Kingsley"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textColor="#242424"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:textColor="@color/toolbar_icon"
+                        android:textAppearance="@style/Title_text"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -84,13 +83,13 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
                 android:layout_gravity="top"
-                app:tabSelectedTextColor="@color/home_selected_tab_color"
-                android:background="?attr/colorPrimaryDark"
+                app:tabSelectedTextColor="@color/brand_primary"
+                android:background="@color/toolbar_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 app:tabIconTint="@drawable/tab_icon_color"
-                app:tabIndicatorColor="@color/selected_tab_indicator"
+                app:tabIndicatorColor="@color/brand_primary"
                 app:tabTextColor="@color/tab_text_color">
 
             </com.google.android.material.tabs.TabLayout>
@@ -102,11 +101,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:backgroundTint="?colorAccent"
             app:setFabIcon="@{vm.currentPage}"
+            android:onClick="@{()->vm.fabClick(vm.currentPage)}"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:layout_margin="16dp"
-            app:tint="@android:color/white"
             app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
 

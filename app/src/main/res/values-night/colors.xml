@@ -20,4 +20,8 @@
 
     <!--LINES-->
     <color name="dash_line_active">@color/brand_primary</color>
+
+    <!--TOOLBAR-->
+    <color name="toolbar_color">#1F1F1F</color>
+    <color name="toolbar_icon">#FFFFFF</color>
 </resources>

@@ -37,16 +37,13 @@ object ContactsUtil {
 
                     val name = it.getStringOrNull(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                     val phoneNumber = it.getStringOrNull(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                    val contactId = it.getLong(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID))
+                    val contactId = it.getInt(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID))
                     val image_uri = it.getStringOrNull(it.getColumnIndex( ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
-
-
 
                     name?.let {
                         fullName = if (it.contains("\\s+")) {
                             val nameSplit = it.split("\\s+")
                             nameSplit[0] + nameSplit[1]
-
                         }else{
                             name
                         }
@@ -77,7 +74,8 @@ object ContactsUtil {
                                         contactName = fullName,
                                         phoneNumber = phoneNo,
                                         phoneQuery = phoneNumTemp,
-                                        image = image_uri
+                                        image = image_uri,
+                                        _id = contactId.toString()
                                     )
 
                                 var isInList : Boolean = true
@@ -103,6 +101,11 @@ object ContactsUtil {
         return contactList
     }
 
+    /**
+     * @param phoneNumber : A valid phone number of type string
+     * to be formatted.
+     * @return A nullable Phonenumber.PhoneNumber?
+     */
      fun formatNumber(phoneNumber : String): Phonenumber.PhoneNumber?{
         val defaultCountry = Locale.getDefault().country
          var parsedNumber: Phonenumber.PhoneNumber? = null

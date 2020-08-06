@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class SocketConnection @Inject constructor(val socket: Socket, @ApplicationContext context: Context, val sharedPrefHelper: SharedPrefHelper) {
+class SocketConnection @Inject constructor(val socket: Socket?, @ApplicationContext context: Context, val sharedPrefHelper: SharedPrefHelper) {
 
     init {
         connectSocket()
@@ -22,21 +22,21 @@ class SocketConnection @Inject constructor(val socket: Socket, @ApplicationConte
      *  @desc : CONNECT TO THE REALTIME SOCKET AND ALSO REGISTER EVENT LISTENERS AND EXECUTION
      */
     fun connectSocket(){
-        socket.on(SocketConstants.SOCKET_EVENT_CONNECT) {
+        socket?.on(SocketConstants.SOCKET_EVENT_CONNECT) {
             Timber.i("Retrying  connection")
             try{
                 val jsonObj : JsonObject = JsonObject()
                 jsonObj.addProperty("connected", true)
                 jsonObj.addProperty("connectedID", sharedPrefHelper.getUserID() )
-                jsonObj.addProperty("socketId", socket?.id())
+                jsonObj.addProperty("socketId", socket.id())
                 socket.emit(SocketConstants.SOCKET_USER_CONNECTED, jsonObj)
             }catch (ex: Exception){
                 ex.printStackTrace()
             }
-        }.on(SocketConstants.SOCKET_USER_DISCONNECT){
+        }?.on(SocketConstants.SOCKET_USER_DISCONNECT){
             Timber.i("I have lost connection to the server")
         }
-        socket.connect()
+        socket?.connect()
         emitUserIsOnline()
     }
 
@@ -45,7 +45,7 @@ class SocketConnection @Inject constructor(val socket: Socket, @ApplicationConte
             val jsonObj : JsonObject = JsonObject()
             jsonObj.addProperty("connected", true)
             jsonObj.addProperty("connectedID", sharedPrefHelper.getUserID() )
-            socket.emit(SocketConstants.SOCKET_USER_CONNECTED, jsonObj)
+            socket?.emit(SocketConstants.SOCKET_USER_CONNECTED, jsonObj)
         }catch (ex: Exception){
             ex.printStackTrace()
         }

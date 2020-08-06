@@ -41,10 +41,12 @@ class VerificationActivity : AppCompatActivity() {
         mThis= this
         bind?.lifecycleOwner = this
         destinationChangeListener()
-        eventObservers()
         liveDataEventListeners()
     }
 
+    /**
+     * @desc Setup LiveData streams listeners
+     */
     private fun liveDataEventListeners(){
         viewModel.successMsg.observe(this, Observer {
             it?.getContentIfNotHandled()?.let {msg->
@@ -67,9 +69,21 @@ class VerificationActivity : AppCompatActivity() {
                 }
             }
         })
+        viewModel.navigateToHome.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                if(it){
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
+        })
     }
 
-    fun destinationChangeListener(){
+    /**
+     * Destination change listeners
+     */
+    private fun destinationChangeListener(){
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
                 R.id.nav_phone ->{
@@ -117,17 +131,6 @@ class VerificationActivity : AppCompatActivity() {
         }
     }
 
-    private fun eventObservers(){
-        viewModel.navigateToHome.observe(this, Observer {
-            it?.getContentIfNotHandled()?.let {
-                if(it){
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-        })
-    }
 
     override fun onDestroy() {
         mThis = null
@@ -135,6 +138,9 @@ class VerificationActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Retrieve OTP MESSAGE listener
+     */
     fun retrieveIncomingSms(){
         val client: SmsRetrieverClient =  SmsRetriever.getClient(this)
 
@@ -147,7 +153,6 @@ class VerificationActivity : AppCompatActivity() {
         // Listen for success/failure of the start Task. If in a background thread, this
         // can be made blocking using Tasks.await(task, [timeout]);
         task.addOnSuccessListener {
-            Timber.i("Successfully added a listener")
             //registered
             // Successfully started retriever, expect broadcast intent
             viewModel.stopTimer()

@@ -47,4 +47,8 @@
     <color name="success_snack">#FD9727</color>
     <color name="warning_snack">#2196f3</color>
 
+    <!--TOOLBAR-->
+    <color name="toolbar_color">#FFFFFF</color>
+    <color name="toolbar_icon">#242424</color>
+
 </resources>

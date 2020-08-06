@@ -6,7 +6,6 @@ import androidx.room.Room
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.DefineComponent
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ApplicationComponent
@@ -14,10 +13,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.Dispatchers
 import ng.novacore.sleezchat.BuildConfig
-import ng.novacore.sleezchat.application.App
 import ng.novacore.sleezchat.db.AppDb
 import ng.novacore.sleezchat.repository.AppRepositoryImpl
-import ng.novacore.sleezchat.repository.AppRepositoryInterface
+import ng.novacore.sleezchat.repository.AppRepository
 import ng.novacore.sleezchat.repository.VerificationRepository
 import ng.novacore.sleezchat.repository.VerificationRepositoryImpl
 import ng.novacore.sleezchat.repository.localDataSource.LocalSourceImp
@@ -51,19 +49,12 @@ object AppModule {
     }
 }
 
+//At bind annotation is used to say which implementation of an interface you wish to use
+//at provides annotation is used to introduce a class you dont own into the dagger graph
 
 @Module
 @InstallIn(ActivityComponent::class)
-abstract class AppModuleBinds{
-    @Binds
-    abstract fun bindLocalDataSource(localSourceImp: LocalSourceImp):LocalSourceInterface
-
-    @Binds
-    abstract fun bindRemoteDataSource(remoteSourceImp: RemoteSourceImp): RemoteSourceInterface
-
-    @ActivityScoped
-    @Binds
-    abstract fun bindRepository(appRepositoryImpl: AppRepositoryImpl): AppRepositoryInterface
+abstract class ActivityModuleBinds{
 
     @Binds
     abstract fun bindVerificationLocalDataSource(localInterfaceImpl: VerificationLocalInterfaceImpl): VerificationLocalInterface
@@ -75,5 +66,19 @@ abstract class AppModuleBinds{
     @Binds
     abstract fun bindVerificationRepository(appRepositoryImpl: VerificationRepositoryImpl): VerificationRepository
 
+}
+
+@Module
+@InstallIn(ApplicationComponent::class)
+abstract class AppModuleBinds{
+    @Singleton
+    @Binds
+    abstract fun bindRepository(appRepositoryImpl: AppRepositoryImpl): AppRepository
+
+    @Binds
+    abstract fun bindLocalDataSource(localSourceImp: LocalSourceImp):LocalSourceInterface
+
+    @Binds
+    abstract fun bindRemoteDataSource(remoteSourceImp: RemoteSourceImp): RemoteSourceInterface
 
 }

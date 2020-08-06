@@ -31,7 +31,7 @@ import javax.inject.Singleton
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideSocketConnection(sharedPrefHelper: SharedPrefHelper): Socket {
+    fun provideSocketConnection(sharedPrefHelper: SharedPrefHelper): Socket? {
         try {
             val options: IO.Options = IO.Options()
             options.forceNew = false
@@ -84,7 +84,7 @@ class NetworkModule {
         return  retrofit.create(ApiService::class.java)
     }
 
-
+    @Singleton
     @Provides
     fun provideVerificationService(retrofit: Retrofit): VerificationService{
         return  retrofit.create(VerificationService::class.java)
