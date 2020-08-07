@@ -34,13 +34,14 @@ class CameraFragment : Fragment() {
     ): View? {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("you called")
+        checkCameraAccess()
         return binding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
        // checkCameraAccess()
-        checkCameraAccess()
+
         viewModel
     }
 

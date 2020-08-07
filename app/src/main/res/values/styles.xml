@@ -14,6 +14,7 @@
         <item name="colorOnPrimary">@color/on_primary_color</item>
         <item name="colorOnSecondary">@color/on_secondary_color</item>
         <item name="colorOnSurface">@color/on_surface_color</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -30,6 +31,10 @@
 
     <style name="body_1_text" parent="@style/TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="body_2_text" parent="@style/TextAppearance.AppCompat.Body2">
+        <item name="android:fontFamily">@font/poppins_light</item>
     </style>
 
 </resources>

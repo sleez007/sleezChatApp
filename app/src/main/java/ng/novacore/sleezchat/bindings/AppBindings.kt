@@ -2,9 +2,37 @@ package ng.novacore.sleezchat.bindings
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ng.novacore.sleezchat.R
+import ng.novacore.sleezchat.internals.interfaces.BindableAdapter
+import ng.novacore.sleezchat.internals.interfaces.RetryRequest
+import timber.log.Timber
+
+
+//SWIPE REFRESH LAYOUTS
+@BindingAdapter("refreshListener")
+fun SwipeRefreshLayout.refreshListener(vm: RetryRequest){
+    setOnRefreshListener { vm.retry() }
+}
+
+@BindingAdapter("shouldRefresh")
+fun SwipeRefreshLayout.shouldRefresh(shouldRefresh : Boolean){
+    isRefreshing = shouldRefresh
+}
+
+@BindingAdapter("data")
+fun <T> RecyclerView.setRecyclerViewProperties(data: T) {
+    Timber.i("AppB")
+    Timber.i(data.toString())
+    if (adapter is BindableAdapter<*>) {
+        data?.let {
+            (adapter as BindableAdapter<T>).setData(it)
+        }
+    }
+}
 
 @BindingAdapter("provideImg")
 fun<T> ImageView.setImageSource(image : T ){

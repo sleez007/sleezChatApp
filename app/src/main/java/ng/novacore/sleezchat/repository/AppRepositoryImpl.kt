@@ -1,8 +1,11 @@
 package ng.novacore.sleezchat.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ng.novacore.sleezchat.R
+import ng.novacore.sleezchat.db.entity.UsersEntity
 import ng.novacore.sleezchat.domain.ModelConverters
 import ng.novacore.sleezchat.internals.generics.GenericCb
 import ng.novacore.sleezchat.model.SyncContacts
@@ -22,5 +25,7 @@ class AppRepositoryImpl @Inject constructor(val remoteSource: RemoteSourceInterf
            is Result.Error->cb.error(response.exception.message ?: context.getString(R.string.network_error))
        }
     }
+
+    override fun getMyContacts(): LiveData<PagedList<UsersEntity>> = localSourceInterface.getMyContacts()
 
 }

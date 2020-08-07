@@ -33,7 +33,7 @@ android {
         debug {
             buildConfigField("String", "PREF_NAME", "\"chat_pref\"")
             buildConfigField("String", "DB_NAME", "\"chat_store.db\"")
-            buildConfigField("String", "MAIN_URL", "\"http://192.168.200.4:3000\"")
+            buildConfigField("String", "MAIN_URL", "\"http://192.168.43.205:3000/\"")
             buildConfigField("String", "BACKEND_BASE_URL", "\"http://192.168.43.205:3000/api/v1/\"")
         }
     }

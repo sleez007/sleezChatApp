@@ -8,9 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ng.novacore.sleezchat.R
+import ng.novacore.sleezchat.adapters.recyclerView.ContactAdapter
+import ng.novacore.sleezchat.databinding.FragmentContactsBinding
+import ng.novacore.sleezchat.utils.RecyclerViewMargin
 
 @AndroidEntryPoint
 class FragmentContacts : Fragment() {
+
+    var binding : FragmentContactsBinding? = null
 
     val viewModel : FragmentContactsViewModel by viewModels()
 
@@ -18,11 +23,34 @@ class FragmentContacts : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_contacts, container, false)
+        binding = FragmentContactsBinding.inflate(inflater, container, false)
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            vm = viewModel
+        }
+        return binding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        eventListeners()
+        wireAdapter()
+
+    }
+
+    private fun eventListeners(){
+
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
+
+    fun wireAdapter(){
+        val adapter = ContactAdapter()
+        binding?.recyclerView?.addItemDecoration(RecyclerViewMargin(16,1))
+        binding?.recyclerView?.adapter = adapter
     }
 
 }

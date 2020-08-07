@@ -22,7 +22,7 @@ class MainViewModel  @ViewModelInject constructor(private val repository: AppRep
 
     fun fabClick(position: Int){
         when(position){
-            1->fabHandler.value
+            1->fabHandler.value = Event(FabPage.TO_CONTACTS)
         }
     }
 }

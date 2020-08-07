@@ -44,6 +44,7 @@ class App : Application(), Configuration.Provider {
         if(sharedPref.getString(Constants.TOKEN_LOOKUP,null)!= null){
             MyWorkManager.initializeAppWorkers(applicationContext)
             MyWorkManager.synchronizeContactsWithServerPeriodic(applicationContext)
+            MyWorkManager.synchronizeContactsWithServerAsap(applicationContext)
         }
     }
 

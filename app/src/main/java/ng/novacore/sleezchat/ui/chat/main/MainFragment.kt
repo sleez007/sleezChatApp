@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +33,7 @@ class MainFragment : Fragment() {
         override fun onPageScrollStateChanged(state: Int) {}
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
         override fun onPageSelected(position: Int) {
+          //  (binding?.toolbar) as CollapsingToolbarLayout
             viewModel.setPageIndex(position)
         }
 
@@ -47,7 +50,7 @@ class MainFragment : Fragment() {
 
     private fun initializeView(savedInstanceState: Bundle?) {
         binding?.apply {
-            viewPager.adapter = TabAdapter(requireActivity().supportFragmentManager)
+            viewPager.adapter = TabAdapter(childFragmentManager)
             viewPager.offscreenPageLimit = 3
             tabs.setupWithViewPager(viewPager)
             tabs.setTabGravity(TabLayout.GRAVITY_FILL)
@@ -69,13 +72,12 @@ class MainFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             vm = viewModel
         }
+
         setUpListeners()
     }
 
 
     override fun onDestroyView() {
-        tabMed?.detach()
-        tabMed = null
         binding?.viewPager?.adapter = null
         binding?.viewPager?.removeOnPageChangeListener(pageChangeListener)
         binding = null
@@ -86,7 +88,11 @@ class MainFragment : Fragment() {
         viewModel.fabHandler.observe(viewLifecycleOwner, Observer {
             it?.getContentIfNotHandled()?.let {
                 when(it){
-                    FabPage.TO_CONTACTS->{}
+                    FabPage.TO_CONTACTS->{
+                        MainFragmentDirections.actionMainFragmentToNavContact().apply {
+                            findNavController().navigate(this)
+                        }
+                    }
                     FabPage.TO_CALL->{}
                     FabPage.TO_CAMERA->{}
                 }
@@ -116,8 +122,6 @@ class MainFragment : Fragment() {
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT
         tab.layoutParams = params
     }
-
-
 
 }
 

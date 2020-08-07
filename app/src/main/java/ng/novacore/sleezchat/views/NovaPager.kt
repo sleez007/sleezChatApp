@@ -151,10 +151,13 @@ class NovaPager : ViewPager {
 
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        super.onRestoreInstanceState(state)
-
-        // check if user saved view state in activity or not then initialise transformer
-        if (!isStateSaved) initTransformer(null, true)
+        try {
+            super.onRestoreInstanceState(state)
+            // check if user saved view state in activity or not then initialise transformer
+            if (!isStateSaved) initTransformer(null, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 
