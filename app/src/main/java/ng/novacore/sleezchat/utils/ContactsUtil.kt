@@ -58,6 +58,7 @@ object ContactsUtil {
                         var phoneNo : String
                         if(phoneDigits.length != 10){
                             phoneNo = "+".plus(phNumberProto)
+                           // phoneNo =phNumberProto
                         }else{
                             phoneNo =phNumberProto
                         }
@@ -71,7 +72,7 @@ object ContactsUtil {
                                 val contactInfo =
                                     UsersEntity(
                                         contactID = contactId,
-                                        contactName = fullName,
+                                        contactName = fullName?.capitalize(),
                                         phoneNumber = phoneNo,
                                         phoneQuery = phoneNumTemp,
                                         image = image_uri,

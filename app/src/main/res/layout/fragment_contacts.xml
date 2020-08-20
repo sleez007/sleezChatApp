@@ -43,41 +43,61 @@
                 />
         </FrameLayout>
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:refreshListener="@{vm}"
-            app:shouldRefresh="@{vm.loading}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".ui.brands.BrandFragment">
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context=".ui.brands.BrandFragment"
                 android:layout_height="match_parent">
-                <include
-                    layout="@layout/layout_loading"
-                    android:visibility="@{ vm.loading &amp;&amp; !vm.isDataAvailable ? View.VISIBLE : View.GONE }"
-                    android:id="@+id/loading"
-                    tools:visibility="gone" />
-                <include layout="@layout/layout_no_item" tools:visibility="gone" android:id="@+id/nothing"
-                    android:visibility="@{!vm.isDataAvailable &amp;&amp; !vm.loading &amp;&amp; !vm.isError ? View.VISIBLE:View.GONE}"/>
-                <include layout="@layout/layout_error" tools:visibility="gone" android:id="@+id/error"
-                    android:visibility="@{!vm.isDataAvailable &amp;&amp; !vm.loading &amp;&amp; vm.isError ? View.VISIBLE:View.GONE}"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    tools:listitem="@layout/row_contact"
-                    app:data="@{vm.myContacts}"
-                    android:paddingTop="16dp"
-                    android:clipToPadding="false"
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <include
+                        android:id="@+id/loading"
+                        layout="@layout/layout_loading"
+                        android:visibility="@{ vm.loading &amp;&amp; !vm.isDataAvailable ? View.VISIBLE : View.GONE }"
+                        tools:visibility="gone" />
+
+                    <include
+                        android:id="@+id/nothing"
+                        layout="@layout/layout_no_item"
+                        android:visibility="@{!vm.isDataAvailable &amp;&amp; !vm.loading &amp;&amp; !vm.isError ? View.VISIBLE:View.GONE}"
+                        tools:visibility="gone" />
+
+                    <include
+                        android:id="@+id/error"
+                        layout="@layout/layout_error"
+                        android:visibility="@{!vm.isDataAvailable &amp;&amp; !vm.loading &amp;&amp; vm.isError ? View.VISIBLE:View.GONE}"
+                        tools:visibility="gone" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingTop="16dp"
+                        android:visibility="@{vm.isDataAvailable ? View.VISIBLE : View.GONE }"
+                        app:data="@{vm.myContacts}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/row_contact" />
+                </LinearLayout>
+
+                <ng.novacore.sleezchat.views.RecyclerViewFastScroller
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:id="@+id/fastscroll"
                     android:visibility="@{vm.isDataAvailable ? View.VISIBLE : View.GONE }"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -18,4 +18,7 @@
         android:name="ng.novacore.sleezchat.ui.chat.contacts.FragmentContacts"
         android:label="Select contact"
         tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/nav_msg"
+        android:name="ng.novacore.sleezchat.ui.chat.message.MessageFragment" /><action android:id="@+id/action_global_nav_msg" app:destination="@id/nav_msg"/>
 </navigation>

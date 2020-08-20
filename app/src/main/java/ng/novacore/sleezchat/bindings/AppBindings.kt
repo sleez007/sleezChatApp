@@ -4,8 +4,10 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ng.novacore.sleezchat.BuildConfig
 import ng.novacore.sleezchat.R
 import ng.novacore.sleezchat.internals.interfaces.BindableAdapter
 import ng.novacore.sleezchat.internals.interfaces.RetryRequest
@@ -40,11 +42,11 @@ fun<T> ImageView.setImageSource(image : T ){
         is Int ->{
             this.setImageResource(image)
         }
-        is String ->{
+        is String? ->{
             try {
-                val finalPath = image
+                val finalPath = BuildConfig.MAIN_URL+image
                 val options = RequestOptions()
-                //Glide.with(context).load(finalPath).apply(options.placeholder(R.drawable.loading_placeholder).error(R.drawable.loading_placeholder)).into(this)
+                Glide.with(context).load(finalPath).apply(options.placeholder(R.drawable.loading_placeholder).error(R.drawable.profile)).into(this)
             }catch (ex: Exception){
                 println(ex.message)
             }

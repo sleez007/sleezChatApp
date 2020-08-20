@@ -28,7 +28,7 @@
 
     <!--chat screen-->
     <color name="home_selected_tab_color">#06A88E</color>
-    <color name="tab_text_color">#D4D6D9</color>
+    <color name="tab_text_color">#7C7C7C</color>
     <color name="selected_tab_indicator">#06A88E</color>
 
 

@@ -34,15 +34,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/poppins_regular"
             android:lines="1"
+            android:text="@{user.contactName}"
             android:textAppearance="@style/Title_text"
-            app:layout_constraintEnd_toStartOf="@+id/skip_txt"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/invite_btn"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{user.contactName}"
-            android:fontFamily="@font/poppins_regular"
-            android:textSize="16sp"
             tools:text="Kingsley Etoka" />
 
         <TextView
@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <Button
-            android:id="@+id/skip_txt"
+            android:id="@+id/invite_btn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

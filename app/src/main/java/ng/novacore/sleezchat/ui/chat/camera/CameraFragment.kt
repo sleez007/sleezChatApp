@@ -35,7 +35,9 @@ class CameraFragment : Fragment() {
         binding = FragmentCameraBinding.inflate(inflater, container, false)
         Timber.i("you called")
         checkCameraAccess()
+        Timber.i("My Cam")
         return binding?.root
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

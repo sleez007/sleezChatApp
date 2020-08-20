@@ -4,8 +4,12 @@ import android.content.Context
 import com.github.nkzawa.socketio.client.Socket
 import com.google.gson.JsonObject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ng.novacore.sleezchat.application.SocketConstants
 import ng.novacore.sleezchat.helper.SharedPrefHelper
+import ng.novacore.sleezchat.repository.AppRepository
 import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
@@ -13,17 +17,17 @@ import javax.inject.Singleton
 
 
 @Singleton
-class SocketConnection @Inject constructor(val socket: Socket?, @ApplicationContext context: Context, val sharedPrefHelper: SharedPrefHelper) {
+class SocketConnection @Inject constructor(val socket: Socket?, @ApplicationContext context: Context, val sharedPrefHelper: SharedPrefHelper, val repository: AppRepository) {
 
     init {
         connectSocket()
     }
+
     /**
      *  @desc : CONNECT TO THE REALTIME SOCKET AND ALSO REGISTER EVENT LISTENERS AND EXECUTION
      */
-    fun connectSocket(){
+    private fun connectSocket(){
         socket?.on(SocketConstants.SOCKET_EVENT_CONNECT) {
-            Timber.i("Retrying  connection")
             try{
                 val jsonObj : JsonObject = JsonObject()
                 jsonObj.addProperty("connected", true)
@@ -35,11 +39,16 @@ class SocketConnection @Inject constructor(val socket: Socket?, @ApplicationCont
             }
         }?.on(SocketConstants.SOCKET_USER_DISCONNECT){
             Timber.i("I have lost connection to the server")
+        }?.on(SocketConstants.SOCKET_USER_CONNECTED){
+            CoroutineScope(Dispatchers.Default).launch {
+               Timber.i(it[0].toString())
+
+            }
         }
         socket?.connect()
-        emitUserIsOnline()
     }
 
+    @Deprecated("This method is no longer being used")
     private fun emitUserIsOnline(){
         try{
             val jsonObj : JsonObject = JsonObject()

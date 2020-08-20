@@ -7,7 +7,7 @@ import ng.novacore.sleezchat.db.entity.UsersEntity
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM user_model")
+    @Query("SELECT * FROM user_model ORDER BY active Desc, contactName ASC")
     fun retrieveUserList(): DataSource.Factory<Int, UsersEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

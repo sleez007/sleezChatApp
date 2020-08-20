@@ -48,5 +48,4 @@ class App : Application(), Configuration.Provider {
         }
     }
 
-
 }

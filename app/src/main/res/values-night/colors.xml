@@ -18,6 +18,7 @@
     <color name="dots_color">#e5949a</color>
     <color name="tool_bar">#202020</color>
 
+    <color name="tab_text_color">#D3D3D3</color>
     <!--LINES-->
     <color name="dash_line_active">@color/brand_primary</color>
 

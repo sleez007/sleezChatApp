@@ -7,11 +7,17 @@
         <variable
             name="user"
             type="ng.novacore.sleezchat.db.entity.UsersEntity" />
+        <variable
+            name="vm"
+            type="ng.novacore.sleezchat.internals.interfaces.ClickContract" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:focusable="true"
+        android:clickable="true"
         android:background="?attr/selectableItemBackground"
+        android:onClick="@{()->vm.eventHandler(user)}"
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
